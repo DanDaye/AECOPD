@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home"
+        android:title="首页"
+        android:icon="@mipmap/home"
+        />
+    <item
+        android:id="@+id/data_center"
+        android:title="数据中心"
+        android:icon="@mipmap/heart"
+        />
+
+    <item
+        android:id="@+id/me"
+        android:title="我"
+        android:icon="@mipmap/me"
+        />
+</menu>

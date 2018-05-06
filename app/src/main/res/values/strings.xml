@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">AECOPD</string>
+    <string name="title_activity_login">Health Guardian</string>
+
+    <!-- Strings related to login -->
+    <string name="sign_in_button">登录</string>
+    <!--HealthGuardian  101.201.69.120:8080-169.254.16.123:8888-->
+    <string name="localhost">123.207.20.100:8080</string>
+    <!--server-->
+    <string name="server">139.199.194.102</string>
+    <!--App发送固定报文-->
+    <string name="checkMsg">check</string>
+
+</resources>
