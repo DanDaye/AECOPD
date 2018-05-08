@@ -544,12 +544,12 @@ public class WebService {
      * @return
      */
 
-    public static String executeHttpAddNormal(String machine_id,String fev1,String breath,String heart,String boold,String bmi){
+    public static String executeHttpAddNormal(String machine_id,String fev1,String breath,String heart,String boold,String bmi,String temperature,String relivate,String birthdate,String desease_history){
         HttpURLConnection conn = null;
         InputStream is = null;
         try {
             String path = "http://"+IP+"/aecopdDB/AddNormalServlet";
-            path = path+"?machine_id="+machine_id+"&fev1="+fev1+"&heart="+heart+"&breath="+breath+"&bmi="+bmi+"&boold="+boold;
+            path = path+"?machine_id="+machine_id+"&fev1="+fev1+"&heart="+heart+"&breath="+breath+"&bmi="+bmi+"&boold="+boold+"&temperature="+temperature+"&relivate="+relivate+"&birthdate="+birthdate+"&desease_history="+desease_history;
             System.out.println(path);
             conn = (HttpURLConnection)new URL(path).openConnection();
             conn.setConnectTimeout(3000);

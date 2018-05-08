@@ -62,7 +62,9 @@ public class MyService extends IntentService{
                             new Thread(new MyThread()).start();
                         }else{
                             level = Latest.level;
-                            showNotification();
+                            if(!level.equals("优")) {
+                                showNotification();
+                            }
                         }
                         Thread.sleep(1000*60);
                     }catch (InterruptedException e){
@@ -188,6 +190,7 @@ public class MyService extends IntentService{
                                     break;
                             }
                             if(!level.equals("优")){
+                                Log.d("isn't not ","优");
                                 showNotification();
                             }
                         } catch (JSONException e) {
