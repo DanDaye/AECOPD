@@ -141,7 +141,7 @@ public class ChangeBirthActivity extends AppCompatActivity implements View.OnCli
         String info = null;
         @Override
         public void run() {
-            info = WebService.executeHttpChangeBirth(User.me,birthText.getText().toString());
+            info = WebService.executeHttpChangeBirth(User.bindID,birthText.getText().toString());
             handler.post(new Runnable() {
                 @Override
                 public void run() {

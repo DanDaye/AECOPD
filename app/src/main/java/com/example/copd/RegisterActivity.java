@@ -61,11 +61,11 @@ public class RegisterActivity extends BaseActivity implements NavigationView.OnC
     private EditText rePasswordText;
     private View mRegisterForm;
     private View mProgressView;
-    private EditText disease_history;
-    private int mYear;
-    private int mMonth;
-    private int mDay;
-    private EditText birthdate;
+//    private EditText disease_history;
+//    private int mYear;
+//    private int mMonth;
+//    private int mDay;
+//    private EditText birthdate;
     private TextInputLayout birth_layout;
     final int DATE_DIALOG =1;
     private String info;
@@ -94,8 +94,8 @@ public class RegisterActivity extends BaseActivity implements NavigationView.OnC
         mPasswordView = (EditText) findViewById(R.id.reg_pwd);
         rePasswordText = (EditText)findViewById(R.id.re_pwd);
         Button registerbtn = (Button) findViewById(R.id.register_button);
-        birthdate = (EditText)findViewById(R.id.birthdate);
-        disease_history = (EditText)findViewById(R.id.disease_history);
+//        birthdate = (EditText)findViewById(R.id.birthdate);
+//        disease_history = (EditText)findViewById(R.id.disease_history);
         registerbtn.setOnClickListener(this);
 //        Toolbar appbar = (Toolbar) findViewById(R.id.toolbar);
         /**
@@ -110,53 +110,53 @@ public class RegisterActivity extends BaseActivity implements NavigationView.OnC
                     }
                 }
         );
-        birthdate.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showDialog(DATE_DIALOG);
-//            }
+//        birthdate.setOnTouchListener(new View.OnTouchListener() {
+////            @Override
+////            public void onClick(View v) {
+////                showDialog(DATE_DIALOG);
+////            }
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                showDialog(DATE_DIALOG);
-                return true;
-            }
-            //            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
 //                showDialog(DATE_DIALOG);
+//                return true;
 //            }
-        });
-        Calendar ca = Calendar.getInstance();
-        mYear = ca.get(Calendar.YEAR);
-        mMonth = ca.get(Calendar.MONTH);
-        mDay = ca.get(Calendar.DAY_OF_MONTH);
+//            //            @Override
+////            public void onFocusChange(View v, boolean hasFocus) {
+////                showDialog(DATE_DIALOG);
+////            }
+//        });
+//        Calendar ca = Calendar.getInstance();
+//        mYear = ca.get(Calendar.YEAR);
+//        mMonth = ca.get(Calendar.MONTH);
+//        mDay = ca.get(Calendar.DAY_OF_MONTH);
         mProgressView = findViewById(R.id.register_progress);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     };
-    protected Dialog onCreateDialog(int id){
-        switch (id){
-            case DATE_DIALOG:
-                return new DatePickerDialog(RegisterActivity.this, mdateListener,mYear,mMonth,mDay);
-        }
-        return null;
-    }
-    public void display() {
-        birthdate.setText(new StringBuffer().append(mYear).append("-").append(mMonth + 1).append("-").append(mDay).append(" "));
-    }
+//    protected Dialog onCreateDialog(int id){
+//        switch (id){
+//            case DATE_DIALOG:
+//                return new DatePickerDialog(RegisterActivity.this, mdateListener,mYear,mMonth,mDay);
+//        }
+//        return null;
+//    }
+//    public void display() {
+//        birthdate.setText(new StringBuffer().append(mYear).append("-").append(mMonth + 1).append("-").append(mDay).append(" "));
+//    }
 
-    private DatePickerDialog.OnDateSetListener mdateListener = new DatePickerDialog.OnDateSetListener() {
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            mYear = year;
-            mMonth = monthOfYear;
-            mDay = dayOfMonth;
-            display();
-        }
-    };
+//    private DatePickerDialog.OnDateSetListener mdateListener = new DatePickerDialog.OnDateSetListener() {
+//
+//        @Override
+//        public void onDateSet(DatePicker view, int year, int monthOfYear,
+//                              int dayOfMonth) {
+//            mYear = year;
+//            mMonth = monthOfYear;
+//            mDay = dayOfMonth;
+//            display();
+//        }
+//    };
 
 
     /**
@@ -170,16 +170,16 @@ public class RegisterActivity extends BaseActivity implements NavigationView.OnC
         bindIdText.setError(null);
         mPasswordView.setError(null);
         rePasswordText.setError(null);
-        birthdate.setError(null);
-        disease_history.setError(null);
+//        birthdate.setError(null);
+//        disease_history.setError(null);
 
         // Store values at the time of the login attempt.
         String username = usernameText.getText().toString();
         String bindid = bindIdText.getText().toString();
         String password = mPasswordView.getText().toString();
         String rePassword = rePasswordText.getText().toString();
-        String birth = birthdate.getText().toString();
-        String disease = disease_history.getText().toString();
+//        String birth = birthdate.getText().toString();
+//        String disease = disease_history.getText().toString();
         boolean cancel = false;
 
 
@@ -228,16 +228,16 @@ public class RegisterActivity extends BaseActivity implements NavigationView.OnC
             focusView = mPasswordView;
             cancel = true;
         }
-        if(TextUtils.isEmpty(birth)){
-            birthdate.setError("出生日期不能为空");
-            focusView = birthdate;
-            cancel = true;
-        }
-        if(TextUtils.isEmpty(disease)){
-            disease_history.setError("急性加重病史不能为空");
-            focusView = disease_history;
-            cancel = true;
-        }
+//        if(TextUtils.isEmpty(birth)){
+//            birthdate.setError("出生日期不能为空");
+//            focusView = birthdate;
+//            cancel = true;
+//        }
+//        if(TextUtils.isEmpty(disease)){
+//            disease_history.setError("急性加重病史不能为空");
+//            focusView = disease_history;
+//            cancel = true;
+//        }
 
 
         if (cancel) {
@@ -285,7 +285,7 @@ public class RegisterActivity extends BaseActivity implements NavigationView.OnC
     public class MyThread implements Runnable{
         @Override
         public void run() {
-            info = WebService.executeHttpRegister(usernameText.getText().toString(),bindIdText.getText().toString(),new String(Base64.encode(rePasswordText.getText().toString().getBytes())),birthdate.getText().toString(),disease_history.getText().toString());
+            info = WebService.executeHttpRegister(usernameText.getText().toString(),bindIdText.getText().toString(),new String(Base64.encode(rePasswordText.getText().toString().getBytes())));
             System.out.println("hello"+info);
             handler.post(new Runnable() {
                 @Override

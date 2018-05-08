@@ -53,6 +53,8 @@ public class Change_Desease_HistoryActivity extends AppCompatActivity implements
                     }
                 }
         );
+        Bundle bundle = this.getIntent().getExtras();
+        final String name = bundle.getString("type");
         appbar.setTitle("修改咳痰(咳嗽)");
         spinner = (Spinner)findViewById(R.id.Spinner21);
         adapter = new ArrayAdapter<String>(Change_Desease_HistoryActivity.this,android.R.layout.simple_spinner_dropdown_item,getDataSource());
@@ -60,7 +62,7 @@ public class Change_Desease_HistoryActivity extends AppCompatActivity implements
         spinner.setOnItemSelectedListener(this);
 
         //初始化位置
-        if (Latest.cough_level.equals("加重")){
+        if (Latest.cough_level.equals("1")){
             spinner.setSelection(1);
         }else{
             spinner.setSelection(0);
@@ -116,6 +118,7 @@ public class Change_Desease_HistoryActivity extends AppCompatActivity implements
         String info = null;
         public void run() {
             info = WebService.executeHttpChangeCough_Level(User.bindID,select);
+//            System.out.println("select:"+select);
             handler.post(new Runnable() {
                 @Override
                 public void run() {

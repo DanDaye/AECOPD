@@ -163,6 +163,7 @@ public class DataActivity extends Fragment {
                         break;
                     case R.id.cough_data:
                         intent.setClass(getActivity(),Change_Desease_HistoryActivity.class);
+                        intent.putExtra("type",cough.getText().toString());
                         startActivityForResult(intent,REQUESTCODE);
                     default:
                         break;
@@ -226,8 +227,12 @@ public class DataActivity extends Fragment {
 //                            current_time.setText(time);
                             Latest.setCurrent_time(te[0]+" "+ tmp);
                             int risk = jsonObj.getInt("level");
-                            if(Integer.valueOf(jsonObj.getString("breath_rate")) > 30){
-                                risk +=1;
+//                            if(Integer.valueOf(jsonObj.getString("breath_rate")) > 30){
+//                                risk +=1;
+//                            }
+                            int breat = Integer.valueOf(jsonObj.getString("breath_rate"));
+                            if(breat>=30){
+                                risk = risk+1;
                             }
                             switch (risk){
                                 case 0:
@@ -293,12 +298,13 @@ public class DataActivity extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("on activity result");
         switch (resultCode){
             case 7:
                 if (requestCode == 2){
                     String result = data.getStringExtra("result");
                     String r ="";
-                    if(r.equals("1")){
+                    if(result.equals("1")){
                         r = "加重";
                     }else{
                         r="正常";
@@ -308,6 +314,8 @@ public class DataActivity extends Fragment {
                     Toast.makeText(getContext(),"修改成功", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case -1:
+                Toast.makeText(getContext(),"修改失败", Toast.LENGTH_SHORT).show();
             default:
                 break;
 

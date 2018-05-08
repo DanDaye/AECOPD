@@ -66,7 +66,7 @@ public class WebService {
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Charset","UTF-8");
-            System.out.print(conn.getResponseCode());
+//            System.out.print(conn.getResponseCode());
             if(conn.getResponseCode() == 200){
                 is = conn.getInputStream();
                 return parseInfo(is);
@@ -95,17 +95,15 @@ public class WebService {
      * @param username
      * @param machine_id
      * @param password
-     * @param birth
-     * @param disease_history
      * @return
      */
 
-    public static String executeHttpRegister(String username,String machine_id,String password,String birth,String disease_history){
+    public static String executeHttpRegister(String username,String machine_id,String password){
         HttpURLConnection conn = null;
         InputStream is = null;
         try {
             String path = "http://"+IP+"/aecopdDB/RegisterServlet";
-            path = path+"?username="+username+"&password="+password+"&machine_id="+machine_id+"&birthdate="+birth+"&desease_history="+disease_history;
+            path = path+"?username="+username+"&password="+password+"&machine_id="+machine_id;
             conn = (HttpURLConnection)new URL(path).openConnection();
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
@@ -314,17 +312,16 @@ public class WebService {
 
     /**
      * Change Birth
-     * @param username
      * @param birthdate
      * @return
      */
 
-    public static String executeHttpChangeBirth(String username,String birthdate){
+    public static String executeHttpChangeBirth(String machine_id,String birthdate){
         HttpURLConnection conn = null;
         InputStream is = null;
         try {
             String path = "http://"+IP+"/aecopdDB/ChangeBirth";
-            path = path+"?username="+username+"&birthdate="+birthdate;
+            path = path+"?machine_id="+machine_id+"&birthdate="+birthdate;
             conn = (HttpURLConnection)new URL(path).openConnection();
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
@@ -358,18 +355,17 @@ public class WebService {
 
     /**
      * Change Disease
-     * @param username
      * @param disease_history
      * @return
      */
 
 
-    public static String executeHttpChangeDisease(String username,String disease_history){
+    public static String executeHttpChangeDisease(String machine_id,String disease_history){
         HttpURLConnection conn = null;
         InputStream is = null;
         try {
             String path = "http://"+IP+"/aecopdDB/ChangeDiseaseServlet";
-            path = path+"?username="+username+"&disease_history="+disease_history;
+            path = path+"?machine_id="+machine_id+"&disease_history="+disease_history;
             conn = (HttpURLConnection)new URL(path).openConnection();
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);

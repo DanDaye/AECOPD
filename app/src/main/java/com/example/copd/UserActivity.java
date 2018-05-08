@@ -191,12 +191,12 @@ public class UserActivity extends Fragment {
     public class MyThread implements Runnable{
         @Override
         public void run() {
-            System.out.println("username:"+ User.me);
+            System.out.println("username:"+ User.bindID);
             String path = "http://123.207.20.100:8080"+"/aecopdDB/userDetail";
-            path = path+"?username="+User.me;
+            path = path+"?machine_id="+User.bindID;
             System.out.println(path);
             info = WebService.executeHttpGetLatest(path);
-//            System.out.println("hello:----"+info);
+            System.out.println("hello:----"+info);
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -204,12 +204,12 @@ public class UserActivity extends Fragment {
                     if(info!=null){
                         try {
                             JSONObject jsonObj = new JSONObject(info);
-                            username.setText(jsonObj.getString("Account"));
-                            machine.setText(jsonObj.getString("machine_id"));
+                            username.setText(User.me);
+                            machine.setText(User.bindID);
 //                            String[] da = jsonObj.getString("BirthDate").split(",");
 
                             birth.setText(jsonObj.getString("time"));
-                            disease_history.setText(Integer.toString(jsonObj.getInt("Disease_histroy")));
+                            disease_history.setText(Integer.toString(jsonObj.getInt("disease_history")));
                             System.out.print("check disease history"+disease_history.getText().toString());
                         } catch (JSONException e) {
                             e.printStackTrace();

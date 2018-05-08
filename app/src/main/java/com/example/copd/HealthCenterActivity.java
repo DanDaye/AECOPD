@@ -302,8 +302,12 @@ public class HealthCenterActivity extends Fragment {
                             Latest.setCurrent_time(current_time.getText().toString());
 
                             int risk = jsonObj.getInt("level");
-                            if(Integer.valueOf(jsonObj.getString("breath_rate"))>30){
-                                risk +=1;
+//                            if(Integer.valueOf(jsonObj.getString("breath_rate"))>30){
+//                                risk +=1;
+//                            }
+                            int breat = Integer.valueOf(jsonObj.getString("breath_rate"));
+                            if(breat>=30){
+                                risk = risk+1;
                             }
                             switch (risk){
                                 case 0:

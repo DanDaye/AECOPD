@@ -7,10 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.copd.Base.Base64;
 import com.example.copd.Model.User;
 import com.example.copd.Web.WebService;
 
@@ -148,7 +150,7 @@ public class ChangePwdActivity extends AppCompatActivity {
     public class MyThread implements Runnable {
         @Override
         public void run() {
-            info1 = WebService.executeHttpCheckPwd(User.me, initialpwd.getText().toString());
+            info1 = WebService.executeHttpCheckPwd(User.me, new String(Base64.encode(initialpwd.getText().toString().getBytes())));
 
             handler.post(new Runnable() {
                 @Override
@@ -156,7 +158,6 @@ public class ChangePwdActivity extends AppCompatActivity {
                     if (info1.contains("true")) {
                         System.out.println("1111111111111");
                         new Thread(new ChangePwdActivity.MyThread1()).start();
-
                     } else {
                         System.out.println("info1:" + info1);
                         initialpwd.setError("原始密码错误");
@@ -171,7 +172,8 @@ public class ChangePwdActivity extends AppCompatActivity {
     public class MyThread1 implements Runnable {
         @Override
         public void run() {
-            info = WebService.executeHttpChangePwd(User.me, change_pwd.getText().toString());
+            Log.d("error",new String(Base64.encode(initialpwd.getText().toString().getBytes())));
+            info = WebService.executeHttpChangePwd(User.me, new String(Base64.encode(change_pwd.getText().toString().getBytes())));
             System.out.println("here is info:"+info);
             handler.post(new Runnable() {
                 @Override

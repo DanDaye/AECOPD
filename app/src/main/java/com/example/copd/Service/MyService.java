@@ -164,8 +164,12 @@ public class MyService extends IntentService{
                             JSONObject jsonObj = new JSONObject(info);
 
                             int risk = jsonObj.getInt("level");
-                            if(Integer.valueOf(jsonObj.getString("breath_rate"))>30){
-                                risk +=1;
+//                            if(Integer.valueOf(jsonObj.getString("breath_rate"))>30){
+//                                risk +=1;
+//                            }
+                            int breat = Integer.valueOf(jsonObj.getString("breath_rate"));
+                            if(breat>=30){
+                                risk = risk+1;
                             }
                             System.out.println("come here now");
                             switch (risk){

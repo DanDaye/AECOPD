@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.copd.Base.Base64;
 import com.example.copd.Model.User;
 import com.example.copd.Web.WebService;
 
@@ -127,7 +128,7 @@ public class ForgetPwdActivity extends AppCompatActivity implements View.OnClick
     public class MyThread1 implements Runnable {
         @Override
         public void run() {
-            info = WebService.executeHttpChangePwd(username.getText().toString(),pwd.getText().toString());
+            info = WebService.executeHttpChangePwd(username.getText().toString(),new String(Base64.encode(pwd.getText().toString().getBytes())));
             System.out.println("here is info:"+info);
             handler.post(new Runnable() {
                 @Override
