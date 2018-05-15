@@ -1,11 +1,22 @@
 package com.example.copd.Web;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static okio.ByteString.read;
 
@@ -16,18 +27,24 @@ import static okio.ByteString.read;
 public class WebService {
     private static String IP="123.207.20.100:8080";
     private static String pathip = "http://"+IP+"/aecopdDB/";
-    //通过get方式获取HTTP服务器数据
+    private static String cookie;
     public static String executeHttpGet(String username,String password){
         HttpURLConnection conn = null;
         InputStream is = null;
+
         try {
             String path = "http://"+IP+"/aecopdDB/login";
             path = path+"?username="+username+"&password="+password;
             conn = (HttpURLConnection)new URL(path).openConnection();
+//            conn.setRequestMethod("cookie",cookie);
+
+//            Map<String ,List<String>> cookies = conn.getHeaderFields();
+//            List<String>setcookies = cookies.get("Set-Cookie");
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Charset","UTF-8");
+            cookie = conn.getHeaderField("set-cookie");
             System.out.print(conn.getResponseCode());
             if(conn.getResponseCode() == 200){
                 is = conn.getInputStream();
@@ -52,6 +69,41 @@ public class WebService {
         return null;
     }
 
+//    public static String executeHttpGet(String username,String password){
+//        HttpURLConnection conn = null;
+//        InputStream is = null;
+//        try {
+//            String path = "http://"+IP+"/aecopdDB/login";
+//            path = path+"?username="+username+"&password="+password;
+//            conn = (HttpURLConnection)new URL(path).openConnection();
+//            conn.setConnectTimeout(3000);
+//            conn.setDoInput(true);
+//            conn.setRequestMethod("GET");
+//            conn.setRequestProperty("Charset","UTF-8");
+//            System.out.print(conn.getResponseCode());
+//            if(conn.getResponseCode() == 200){
+//                is = conn.getInputStream();
+//                return parseInfo(is);
+//            }
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }finally {
+//            if(conn !=null){
+//                conn.disconnect();
+//            }
+//            if (is!=null){
+//                try {
+//                    is.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return null;
+//    }
+
     /**
      * GetLatest
      * @param path
@@ -62,6 +114,7 @@ public class WebService {
         InputStream is = null;
         try {
             conn = (HttpURLConnection)new URL(path).openConnection();
+            conn.setRequestProperty("Cookie",cookie);
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
@@ -109,6 +162,7 @@ public class WebService {
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Charset","UTF-8");
+            conn.setRequestProperty("Cookie",cookie);
             System.out.print(conn.getResponseCode());
             if(conn.getResponseCode() == 200){
                 is = conn.getInputStream();
@@ -148,6 +202,7 @@ public class WebService {
             String path = "http://"+IP+"/aecopdDB/ChangePwdServlet";
             path = path+"?username="+username+"&password="+password;
             conn = (HttpURLConnection)new URL(path).openConnection();
+            conn.setRequestProperty("Cookie",cookie);
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
@@ -192,6 +247,7 @@ public class WebService {
             String path = "http://"+IP+"/aecopdDB/CheckPwdServlet";
             path = path+"?username="+username+"&password="+password;
             conn = (HttpURLConnection)new URL(path).openConnection();
+            conn.setRequestProperty("Cookie",cookie);
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
@@ -235,6 +291,7 @@ public class WebService {
             String path = "http://"+IP+"/aecopdDB/CheckMachineServlet";
             path = path+"?machine_id="+machine;
             conn = (HttpURLConnection)new URL(path).openConnection();
+            conn.setRequestProperty("Cookie",cookie);
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
@@ -280,6 +337,7 @@ public class WebService {
             String path = "http://"+IP+"/aecopdDB/ChangeMachineServlet";
             path = path+"?username="+username+"&machine_id="+machine_id;
             conn = (HttpURLConnection)new URL(path).openConnection();
+            conn.setRequestProperty("Cookie",cookie);
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
@@ -323,6 +381,7 @@ public class WebService {
             String path = "http://"+IP+"/aecopdDB/ChangeBirth";
             path = path+"?machine_id="+machine_id+"&birthdate="+birthdate;
             conn = (HttpURLConnection)new URL(path).openConnection();
+            conn.setRequestProperty("Cookie",cookie);
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
@@ -367,6 +426,7 @@ public class WebService {
             String path = "http://"+IP+"/aecopdDB/ChangeDiseaseServlet";
             path = path+"?machine_id="+machine_id+"&disease_history="+disease_history;
             conn = (HttpURLConnection)new URL(path).openConnection();
+            conn.setRequestProperty("Cookie",cookie);
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
@@ -413,6 +473,7 @@ public class WebService {
             String path = "http://"+IP+"/aecopdDB/ChangeCoughLevelServlet";
             path = path+"?machine_id="+machine_id+"&cough_level="+cough_level;
             conn = (HttpURLConnection)new URL(path).openConnection();
+            conn.setRequestProperty("Cookie",cookie);
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
@@ -458,6 +519,7 @@ public class WebService {
             String path = "http://"+IP+"/aecopdDB/GetNormalServlet";
             path = path+"?machine_id="+machine_id;
             conn = (HttpURLConnection)new URL(path).openConnection();
+            conn.setRequestProperty("Cookie",cookie);
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
@@ -503,6 +565,7 @@ public class WebService {
             String path = "http://"+IP+"/aecopdDB/ChangeNormalServlet";
             path = path+"?machine_id="+machine_id+"&type="+type+"&content="+content;
             conn = (HttpURLConnection)new URL(path).openConnection();
+            conn.setRequestProperty("Cookie",cookie);
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
@@ -552,6 +615,7 @@ public class WebService {
             path = path+"?machine_id="+machine_id+"&fev1="+fev1+"&heart="+heart+"&breath="+breath+"&bmi="+bmi+"&boold="+boold+"&temperature="+temperature+"&relivate="+relivate+"&birthdate="+birthdate+"&desease_history="+desease_history;
             System.out.println(path);
             conn = (HttpURLConnection)new URL(path).openConnection();
+            conn.setRequestProperty("Cookie",cookie);
             conn.setConnectTimeout(3000);
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
