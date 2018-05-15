@@ -14,7 +14,9 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Binder;
@@ -24,9 +26,13 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.SystemClock;
 
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.NotificationCompat;
+import android.text.TextUtils;
+
 import android.util.Log;
 
 import com.example.copd.HealthCenterActivity;
@@ -94,37 +100,44 @@ public class MyService extends IntentService{
             appIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED );
             PendingIntent contentIntent = PendingIntent.getActivity(MyService.this,0,appIntent,PendingIntent.FLAG_UPDATE_CURRENT);
             Notification notice;
-
+            Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+            long[] vibrates = {0,2000,1000,2000,1000,2000};
             if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.JELLY_BEAN){
 //                PendingIntent content;
                 notice = builder.setContentIntent(contentIntent)
                         .build();
-                if(level.equals("低")) {
-                    notice.defaults = Notification.DEFAULT_ALL;
-                }else {
-                    notice.defaults= Notification.DEFAULT_ALL;
+                AudioManager audio = (AudioManager)this.getSystemService(Context.AUDIO_SERVICE);
+                switch (audio.getRingerMode()){
+                    case AudioManager.RINGER_MODE_SILENT:
+                        System.out.println("1");
+                        notice.sound = null;
+                        notice.defaults |= Notification.DEFAULT_VIBRATE;
+                        break;
+                    case AudioManager.RINGER_MODE_NORMAL:
+                        System.out.println("2");
+//                        notice.sound = Notification.DEFAULT_SOUND;
+//                        notice.defaults = Notification.DEFAULT_ALL;
+                        notice.sound = uri;
+//                        notice.defaults +=Notification.DEFAULT_VIBRATE;
+                        notice.vibrate =vibrates;
+                        break;
+                    case AudioManager.RINGER_MODE_VIBRATE:
+                        System.out.println("3");
+                        notice.sound = null;
+//                        notice.defaults |= Notification.DEFAULT_VIBRATE;
+                        notice.vibrate = vibrates;
+                        break;
+                    default:
+                        break;
                 }
 //                notice.defaults = Notification.DEFAULT_ALL;
-                notice.flags = Notification.FLAG_AUTO_CANCEL;
-                manager.notify(10,notice);
+                notice.ledARGB = Color.GREEN;
+                notice.ledOnMS = 1000;
+                notice.ledOffMS = 1000;
+                notice.flags = Notification.FLAG_SHOW_LIGHTS ;
+//                notice.flags =Notification.FLAG_AUTO_CANCEL;
+                manager.notify(1,notice);
             }
-//            Notification notification = new NotificationCompat.Builder(this)
-//                    .setContentTitle("This is titile")
-//                    .setContentText("This is text"+level)
-//                    .setWhen(System.currentTimeMillis())
-//                    .setSmallIcon(R.drawable.logo)
-//                    .build();
-//            if(level.equals("低")) {
-//                notification.defaults = Notification.DEFAULT_ALL;
-//            }else if(level.equals("中")){
-//                notification.defaults = Notification.DEFAULT_LIGHTS;
-//            }else {
-//                notification.defaults = Notification.DEFAULT_SOUND;
-//            }
-//            Intent intent = new Intent(MyService.this,MainActivity.class);
-//            PendingIntent resultPendingIntend = PendingIntent.getActivity(MyService.this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//            manager.notify(1,notification);
         }
     }
 

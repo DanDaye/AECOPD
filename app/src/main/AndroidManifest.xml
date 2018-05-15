@@ -61,7 +61,10 @@
         <activity android:name=".BooldDetailActivity" />
         <activity android:name=".ForgetPwdActivity" />
         <activity android:name=".NormalActivity" />
-        <activity android:name=".InitialNormalActivity"></activity>
+        <activity android:name=".InitialNormalActivity" />
+        <activity android:name=".test">
+
+        </activity>
     </application>
 
 </manifest>
