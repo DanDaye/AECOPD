@@ -1,8 +1,10 @@
 package com.example.copd;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -48,68 +50,66 @@ public class ChangePwdActivity extends AppCompatActivity {
         change_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancel = false;
-                /**
-                 * 判断原始密码是否正确
-                 */
-                if(TextUtils.isEmpty(initialpwd.getText().toString())){
-                    initialpwd.setError("原始密码不能为空");
-                    focusView = initialpwd;
-                    cancel = true;
-                }
-                if(!initialpwd.getText().toString().equals(User.password)){
-                    initialpwd.setError("原始密码不正确");
-                    focusView = initialpwd;
-                    cancel = true;
-                }
 
-                /**
-                 * 判断新密码是否符合要求
-                 */
-                if (TextUtils.isEmpty(change_pwd.getText().toString())){
-                    change_pwd.setError("密码不能为空");
-                    focusView = change_pwd;
-                    cancel = true;
-                }
-                if(!TextUtils.isEmpty(change_pwd.getText().toString()) && !isPwdValid(change_pwd.getText().toString())){
-                    change_pwd.setError("密码只能由数字字母下划线组成");
-                    focusView = change_pwd;
-                    cancel = true;
-                }
+                new AlertDialog.Builder(ChangePwdActivity.this)
+                        .setTitle("是否确定修改？")
+//                                .setIcon(R.drawable.heart_launch)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//                                ActivityController.finishAll();
+                                cancel = false;
+                                /**
+                                 * 判断原始密码是否正确
+                                 */
+                                if(TextUtils.isEmpty(initialpwd.getText().toString())){
+                                    initialpwd.setError("原始密码不能为空");
+                                    focusView = initialpwd;
+                                    cancel = true;
+                                }
+                                if(!initialpwd.getText().toString().equals(User.password)){
+                                    initialpwd.setError("原始密码不正确");
+                                    focusView = initialpwd;
+                                    cancel = true;
+                                }
 
-                if (!isPwdLenthLegal(change_pwd.getText().toString())) {
-                    change_pwd.setError("密码长度应为 6-16 位");
-                    focusView = change_pwd;
-                    cancel = true;
-                }
-                /**
-                 * 判断新密码和重复密码是否一致
-                 */
-                if(!change_pwd.getText().toString().equals(re_pwd.getText().toString())){
-                    re_pwd.setError("与新密码不一致");
-                    focusView = re_pwd;
-                    cancel = true;
-                }
+                                /**
+                                 * 判断新密码是否符合要求
+                                 */
+                                if (TextUtils.isEmpty(change_pwd.getText().toString())){
+                                    change_pwd.setError("密码不能为空");
+                                    focusView = change_pwd;
+                                    cancel = true;
+                                }
+                                if(!TextUtils.isEmpty(change_pwd.getText().toString()) && !isPwdValid(change_pwd.getText().toString())){
+                                    change_pwd.setError("密码只能由数字字母下划线组成");
+                                    focusView = change_pwd;
+                                    cancel = true;
+                                }
 
-
-
-
-                if(cancel){
-                    focusView.requestFocus();
-                }else{
-                    dialog = new ProgressDialog(ChangePwdActivity.this);
-                    dialog.setTitle("提示");
-                    dialog.setMessage("注册中，请稍后...");
-                    dialog.setCancelable(false);
-                    dialog.show();
-                    /**
-                     * 修改并跳转
-                     */
-
-                    new Thread(new ChangePwdActivity.MyThread()).start();
+                                if (!isPwdLenthLegal(change_pwd.getText().toString())) {
+                                    change_pwd.setError("密码长度应为 6-16 位");
+                                    focusView = change_pwd;
+                                    cancel = true;
+                                }
+                                /**
+                                 * 判断新密码和重复密码是否一致
+                                 */
+                                if(!change_pwd.getText().toString().equals(re_pwd.getText().toString())){
+                                    re_pwd.setError("与新密码不一致");
+                                    focusView = re_pwd;
+                                    cancel = true;
+                                }
+                                doCheck(cancel);
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .setCancelable(false)
+                        .show();
 
 
-                }
+
+
             }
         });
         /**
@@ -125,6 +125,23 @@ public class ChangePwdActivity extends AppCompatActivity {
                 }
         );
         appbar.setTitle("修改密码");
+    }
+
+    private void doCheck(boolean cancel) {
+        if(cancel){
+            focusView.requestFocus();
+        }else{
+            dialog = new ProgressDialog(ChangePwdActivity.this);
+            dialog.setTitle("提示");
+            dialog.setMessage("注册中，请稍后...");
+            dialog.setCancelable(false);
+            dialog.show();
+            /**
+             * 修改并跳转
+             */
+
+            new Thread(new ChangePwdActivity.MyThread()).start();
+        }
     }
 
     /**

@@ -1,8 +1,10 @@
 package com.example.copd;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -106,6 +108,23 @@ public class Change_Desease_HistoryActivity extends AppCompatActivity implements
         }else{
             option = 0;
         }
+        new AlertDialog.Builder(Change_Desease_HistoryActivity.this)
+                .setTitle("是否修改？")
+//                                .setIcon(R.drawable.heart_launch)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+//                        ActivityController.finishAll();
+                        doCheck();
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .setCancelable(false)
+                .show();
+
+    }
+
+    private void doCheck() {
         dialog = new ProgressDialog(Change_Desease_HistoryActivity.this);
         dialog.setTitle("提示");
         dialog.setMessage("注册中，请稍后...");

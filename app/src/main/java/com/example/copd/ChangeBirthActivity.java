@@ -3,8 +3,10 @@ package com.example.copd;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.SimpleFormatter;
+
+import static android.R.string.cancel;
 
 public class ChangeBirthActivity extends AppCompatActivity implements View.OnClickListener {
     private Button modifyButton;
@@ -102,38 +106,53 @@ public class ChangeBirthActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.birth_button:
-                boolean cancel = false;
-                String birth = birthText.getText().toString();
-                if(TextUtils.isEmpty(birth)){
-                    birthText.setError("出生日期不能为空");
-                    focusView = birthText;
-                    cancel = true;
-                }
-                /**
-                 * 比较日期
-                 */
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                Date curDate = new Date(System.currentTimeMillis());
-                String str = formatter.format(curDate);
-                if(birth.compareTo(str) > 0){
-                    birthText.setError("出生日期不能是未来时间");
-                    focusView = birthText;
-                    cancel = true;
-                }
-
-                if(cancel){
-                    focusView.requestFocus();
-                }else{
-                    dialog = new ProgressDialog(ChangeBirthActivity.this);
-                    dialog.setTitle("提示");
-                    dialog.setMessage("注册中，请稍后...");
-                    dialog.setCancelable(false);
-                    dialog.show();
-                    new Thread(new ChangeBirthActivity.MyThread()).start();
-                }
+                new AlertDialog.Builder(ChangeBirthActivity.this)
+                        .setTitle("是否确定修改？")
+//                                .setIcon(R.drawable.heart_launch)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                boolean cancel = false;
+                                String birth = birthText.getText().toString();
+                                if(TextUtils.isEmpty(birth)){
+                                    birthText.setError("出生日期不能为空");
+                                    focusView = birthText;
+                                    cancel = true;
+                                }
+                                /**
+                                 * 比较日期
+                                 */
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                Date curDate = new Date(System.currentTimeMillis());
+                                String str = formatter.format(curDate);
+                                if(birth.compareTo(str) > 0){
+                                    birthText.setError("出生日期不能是未来时间");
+                                    focusView = birthText;
+                                    cancel = true;
+                                }
+                                doCheck(cancel);
+//                                ActivityController.finishAll();
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .setCancelable(false)
+                        .show();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void doCheck(boolean cancel) {
+        if(cancel){
+            focusView.requestFocus();
+        }else{
+            dialog = new ProgressDialog(ChangeBirthActivity.this);
+            dialog.setTitle("提示");
+            dialog.setMessage("注册中，请稍后...");
+            dialog.setCancelable(false);
+            dialog.show();
+            new Thread(new ChangeBirthActivity.MyThread()).start();
         }
     }
 
