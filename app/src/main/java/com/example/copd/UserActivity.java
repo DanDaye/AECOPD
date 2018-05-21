@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.copd.Model.User;
+import com.example.copd.Service.MyService;
 import com.example.copd.Web.WebService;
 
 import org.json.JSONException;
@@ -90,6 +91,7 @@ public class UserActivity extends Fragment {
                                     public void onClick(DialogInterface dialog, int which) {
 
                                         ActivityController.finishAll();
+//                                        MyService.onDestory();
                                     }
                                 })
                                 .setNegativeButton("取消", null)

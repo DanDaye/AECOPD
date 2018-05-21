@@ -354,6 +354,7 @@ public class HealthCenterActivity extends Fragment {
                             }else{
                                 cough.setText("加重");
                                 cough_img.setImageResource(R.mipmap.up);
+//                                MyService.
                             }
                             Latest.setCough_level(level+"");
                             checkFev1();
@@ -395,7 +396,7 @@ public class HealthCenterActivity extends Fragment {
                     e.printStackTrace();
                 }
             }
-        }, 2000, 60000);
+        }, 0, 60000);
     }
 
 }

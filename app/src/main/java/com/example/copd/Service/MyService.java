@@ -134,8 +134,8 @@ public class MyService extends IntentService{
                 notice.ledARGB = Color.GREEN;
                 notice.ledOnMS = 1000;
                 notice.ledOffMS = 1000;
-                notice.flags = Notification.FLAG_SHOW_LIGHTS ;
-//                notice.flags =Notification.FLAG_AUTO_CANCEL;
+//                notice.flags = Notification.FLAG_SHOW_LIGHTS ;
+                notice.flags =Notification.FLAG_AUTO_CANCEL;
                 manager.notify(1,notice);
             }
         }
@@ -177,6 +177,33 @@ public class MyService extends IntentService{
                     if(info!=null){
                         try {
                             JSONObject jsonObj = new JSONObject(info);
+//
+//                            int risk = jsonObj.getInt("level");
+//                            int breat = Integer.valueOf(jsonObj.getString("breath_rate"));
+//                            if(breat>=30){
+//                                risk = risk+1;
+//                            }
+//                            System.out.println("come here now");
+//                            switch (risk){
+//
+//                                case 0:
+//                                    level="优";
+//                                    break;
+//                                case 1:
+//                                    level = "低";
+//                                    break;
+//                                case 2:
+//                                    level = "中";
+//                                    break;
+//                                default:
+//                                    level = "高";
+//                                    break;
+//                            }
+                            String time = jsonObj.getString("Dat");
+
+                            String[] te = time.split(" ");
+                            String tmp = te[1].substring(0, 8);
+                            Latest.setCurrent_time(te[0]+" "+tmp);
 
                             int risk = jsonObj.getInt("level");
 //                            if(Integer.valueOf(jsonObj.getString("breath_rate"))>30){
@@ -186,22 +213,45 @@ public class MyService extends IntentService{
                             if(breat>=30){
                                 risk = risk+1;
                             }
-                            System.out.println("come here now");
+
                             switch (risk){
 
                                 case 0:
-                                    level="优";
+                                    level = "优";
+//                                    Latest.setLevel("优");
                                     break;
                                 case 1:
+//                                    level.setText("低");
                                     level = "低";
+//                                    Latest.setLevel("低");
+//                                    level.setTextColor(Color.YELLOW);
                                     break;
                                 case 2:
                                     level = "中";
+//                                    Latest.setLevel("中");
                                     break;
                                 default:
-                                    level = "高";
+                                    level ="高";
+//                                    Latest.setLevel("高");
                                     break;
                             }
+//                            Latest.setLevel(level.getText().toString());
+                            Latest.setHeart_rate(jsonObj.getString("heart_rate"));
+
+//                            Latest.setBoold_rate_up(boold.getText().toString());
+
+                            Latest.setBreath_rate(jsonObj.getString("breath_rate"));
+
+                            Latest.setBMI(jsonObj.getString("BMI"));
+
+                            Latest.setFev1(jsonObj.getString("fev1"));
+
+                            Latest.setCough_level(level+"");
+//                            temperature.setText(jsonObj.getString("temperature")+"°C");
+                            Latest.setTempurature(jsonObj.getString("temperature"));
+
+//                            relivate.setText(jsonObj.getString("relivate")+"%");
+                            Latest.setRelivate(jsonObj.getString("relivate"));
                             if(!level.equals("优")){
                                 Log.d("isn't not ","优");
                                 showNotification();
