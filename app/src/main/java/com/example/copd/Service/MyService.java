@@ -64,14 +64,14 @@ public class MyService extends IntentService{
                 while (true){
                     try {
 
-                        if (Latest.level == null){
+//                        if (Latest.level == null){
                             new Thread(new MyThread()).start();
-                        }else{
-                            level = Latest.level;
-                            if(!level.equals("优")) {
-                                showNotification();
-                            }
-                        }
+//                        }else{
+//                            level = Latest.level;
+//                            if(!level.equals("优")) {
+//                                showNotification();
+//                            }
+//                        }
                         Thread.sleep(1000*60);
                     }catch (InterruptedException e){
                         e.printStackTrace();
